@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>{{titulo}}</title>
+</head>
+<body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Recopilaci&oacute;n de tweets</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="/tweetsgeoref/1">Ver Tweets georeferenciados <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="/tweetsarba/1">Ver Tweets con el t&eacute;rmino Arba<span class="sr-only"></span></a>
+                <a class="nav-item nav-link active" href="/tweetsarba/1">Ver Tweets de Twitter Archiver (sin georef.)<span class="sr-only"></span></a>
+                {{!-- <a class="nav-item nav-link" href="/add-tweet">Agregar un tweet</a> --}}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h3 class="display-5 p-4"><e style="text-decoration: underline;">Tuiteos:</e> P&aacute;gina {{current}} de un total de {{pages}} p&aacute;ginas. <br>Se muestran {{porPagina}} tweets por p&aacutegina</h3>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Texto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">URL Tweet</th>
+                </thead>
+                <tbody>
+                    {{#each tuiteos}}
+                        <tr>
+                            <td>{{this.usuario}}</td>
+                            <td>{{this.texto}}</td>
+                            <td>{{this.fecha}}</td>
+                            <td><a href="{{this.urlTweet}}" target = "_blank">Ver Tweet</a></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <div class="row">
+                {{#if pages}}
+                    <nav class="mx-auto">
+                        <ul class="pagination">
+                            <!-- primer pagina -->
+                            {{#if paginaUno}}
+                                <li class="page-item disabled">
+                            {{else}}
+                                <li class="page-item">
+                            {{/if}}
+                                <a href="/tweetsarba/1" class="page-link">Primer pag.</a>
+                            </li>
+
+                            <!-- pagina intermedia: con @key se accede al nombre de la propiedad y con this se accede al valor -->
+                            {{#each vector}}
+                                <li class="page-item">
+                                    <a href="/tweetsarba/{{this}}" class="page-link">{{this}}</a>
+                                </li>
+                            {{/each}}
+                            
+                            <!-- ultima pagina -->
+                            {{#if paginaUltima}}
+                                <li class="page-item disabled">
+                            {{else}}
+                                <li class="page-item">
+                            {{/if}}
+                                <a href="/tweetsarba/{{pages}}" class="page-link">Última pag.</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {{/if}}
+            </div>
+    </div>
+</body>
+</html>
